@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f1f1f1;
+        }
+        form {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        button.home-btn,
+        button.signup-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button.login-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border-color: #007bff;
+            
+        }
+        @media screen and (max-width: 600px) {
+            form {
+                width: 100%;
+            }
+        }
+      
+
+    </style>
+ 
+</head>
+<body>
+     
+    <div class="login-container">
+        <form action="/user/login" method="POST">
+            <h1>Login Page</h1>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <button class="login-btn" type="submit">Login</button>
+        </form>
+
+        <nav>
+            <button class="home-btn" onclick="navigate('/')">Home</button>
+            <button class="signup-btn" onclick="navigate('/signup')">Sign Up</button>
+        </nav>
+    </div>
+
+    
+
+    <script>
+        function navigate(route) {
+            window.location.href = route;
+        }
+    </script>
+</body>
+</html>
