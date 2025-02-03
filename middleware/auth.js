@@ -1,6 +1,34 @@
 const{getUser} = require('../service/auth')
 
 
+function checkForAuthentication(req, res, next){
+    const tokenCookie = req.cookies?.session;
+    req.user = null;
+    if (!tokenCookie) {
+        return next();
+    }
+    const token = tokenCookie
+    const user = getUser(token)
+    req.user = user;
+    next();
+}
+
+
+
+function restrictTo(roles=[]){
+    return async (req, res, next) => {
+        const user = req.user;
+        if (!user) {
+            return res.redirect('/login');
+        }
+        if (!roles.includes(user.role)) {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+                
+        next();
+    };
+   
+}
 async function restrictToLoggedInUserOnly(req, res, next){
    const uuId = req.cookies?.session;
     if (!uuId) {
@@ -27,5 +55,7 @@ async function checkAuth(req, res, next){
 module.exports = {
     restrictToLoggedInUserOnly,
     checkAuth,
+    restrictTo,
+    checkForAuthentication,
  
 };

@@ -3,7 +3,7 @@ const urlRoutes = require('./routes/url')
 const staticRoutes = require('./routes/static')
 const userRoutes = require('./routes/user')
 const cookieParser = require('cookie-parser')
-const {restrictToLoggedInUserOnly, checkAuth} = require('./middleware/auth')
+const {restrictToLoggedInUserOnly, checkAuth, checkForAuthentication, restrictTo} = require('./middleware/auth')
 const {handleConnection} = require('./connection')
 const URL = require('./models/url')
 
@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 // Middleware to authenticate users
-
+app.use(checkForAuthentication)
 
 // setting view engine to render static files like html and css
 
@@ -29,13 +29,13 @@ handleConnection('mongodb://localhost:27017/short-url')
 // Handle incoming URL requests
 
 // Handle incoming POST requests to shorten URLs
-app.use('/url',restrictToLoggedInUserOnly, urlRoutes)
+app.use('/url',restrictTo(["ADMIN","NORMAL"]), urlRoutes)
 
 app.use('/user', userRoutes)
 
 // Handle static files requests
 // Render the homepage with the form to shorten URLs
-app.use('/', checkAuth, staticRoutes)
+app.use('/', staticRoutes)
 
 // Handle analytics requests
 app.use('/url/analytics', urlRoutes)

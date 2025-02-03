@@ -4,7 +4,7 @@ const{ setUser } = require('../service/auth')
 
 // Create and Save a new User
 async function handleUserSignUp(req, res) {
-    const { name, email, password } = req.body
+    const { name, email, password, role } = req.body
     const existingUser = await User.findOne({ email });
     if (existingUser) {
         return res.status(400).json({ message: 'User already exists' });
@@ -13,6 +13,7 @@ async function handleUserSignUp(req, res) {
         name,
         email,
         password,
+        role,
         // Add any additional fields here, e.g., role, etc. if required. For simplicity, we'll keep it simple.
     })
     // Create a new User
